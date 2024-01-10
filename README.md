@@ -1,40 +1,113 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## usage
 
-## Getting Started
+This JavaScript module exports a single React component named Blob. This component uses the Three.js library to create a 3D blob object that is animated with a wave-like distortion. The blob's color changes based on its y-coordinate.
 
-First, run the development server:
+## dependencies
+
+- React
+- Three.js
+- simplex-noise
+
+### installation
+
+To install the Blob component, run the following command in your project directory:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/rameshvoodi/Blobby.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+cd into the bloby directory:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```bash
+cd bloby
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Install the dependencies:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+yarn install
+```
+run the project:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+yarn start
+```
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To use the Blob component, simply import it and use it like any other React component:
 
-## Deploy on Vercel
+```javascript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+import Blob from './Blob';
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+function App() {
+  return (
+    <div>
+      <Blob />
+    </div>
+  );
+}
+
+export default App;
+
+```
+This will render the Blob component in your application.
+
+## Component details
+
+The Blob component uses the useEffect hook to set up the Three.js scene when the component is first rendered. This includes creating the blob object, setting up the camera and renderer, and starting the animation loop.
+
+The blob object is created using a THREE.Mesh with a THREE.SphereGeometry and a custom THREE.ShaderMaterial. The ShaderMaterial uses GLSL shaders to control the appearance of the blob. The vertex shader passes the position of each vertex to the fragment shader, and the fragment shader uses this position to calculate the color of each pixel.
+
+The animation loop updates the position of each vertex in the blob's geometry based on a 2D noise function. This creates a wave-like distortion effect. The loop also updates the controls and renders the scene.
+
+The Blob component returns a div with the id "blob-container". The Three.js renderer attaches its canvas to this div.
+
+
+## customization
+
+You can customize the appearance and behavior of the blob by modifying the constants in the animate function:
+
+
+- **numberOfWaves**:  Controls the number of waves in the distortion effect.
+- **frequencyOfWaves**: Controls the frequency of the waves.
+- **numberOfWaves**:  Controls the intensity of the distortion effect.
+- **numberOfWaves**: Controls the distortion of the waves.
+
+
+## Color customization
+
+You can use MeshphysicalMaterial to add a specific color along with metalness, roughness and other properties.
+
+``` javascript
+ const material = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("rgb(0,0,250)"),
+      metalness: 0.88,
+      roughness: 0.27,
+      envMapIntensity: 0.81,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.0,
+      transmission: 0.0,
+    });
+```
+## spotlight
+
+You can use spotlight to add a light source to the scene.
+
+``` javascript
+ const spotLight1 = new THREE.SpotLight(0xffffff);
+    spotLight1.position.set(0, 5, 10);
+    scene.add(spotLight1);
+
+    const spotLight2 = new THREE.SpotLight(0xffffff);
+    spotLight2.position.set(10, -5, 0);
+    scene.add(spotLight2);
+
+    const spotLight3 = new THREE.SpotLight(0xffffff);
+    spotLight3.position.set(-10, -5, 0);
+    scene.add(spotLight3);
+
+ ```
