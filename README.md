@@ -30,7 +30,7 @@ yarn install
 run the project:
 
 ```bash
-yarn start
+yarn dev
 ```
 
 
